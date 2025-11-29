@@ -1,13 +1,14 @@
-# Beta-Burst Efficiency — Synthetic-data friendly analysis
-
+# Beta-Burst Efficiency 
 Overview
 --------
 This repository contains an EEG analysis pipeline that extracts beta-burst waveforms from motor electrodes (C3 / C5 indices in the code), performs dimensionality reduction (PCA) on waveform shapes, and runs two classification analyses:
 
+This contains two separates piplelines and checks their efficiency for classifying intension and healthy subjects and motor impaired populations. 
+
 - `beta_analysis`: classifies movement vs rest using bandpass filtering → CSP → LDA with cross-validation.
 - `burst_analysis`: uses PCA-derived waveform filters (average waveforms from PCA axes) to convolve with epochs, then CSP+LDA classification.
 
-A data generator is included so you can run the pipeline end-to-end using synthetic data if real EEG / burst files are not available.
+
 
 Quick features
 - Per-subject burst extraction and PCA on stacked burst waveforms
@@ -16,8 +17,8 @@ Quick features
 - Synthetic data generator to produce dummy bursts and Epochs pickles for testing
 
 Repository layout (relevant files)
-- generate_synthetic_data.py — create synthetic burst .npy files and pickled MNE Epochs
-- run_analysis.py (or your analysis script) — main pipeline: burst collection, PCA, classification
+- preprocessing.py - script depicting the basic preprocessing and burst extraction scripts 
+- run_analysis.py (analysis script) — main pipeline: burst collection, PCA, classification
 - config.json — configuration (paths, sampling freq, PCA and analysis params)
 - results: produced .npz summary files
 
@@ -65,17 +66,6 @@ The pipeline reads `config.json`. Minimal example (adapt paths to your environme
 }
 ```
 
-Generating synthetic data (recommended when you do not have real EEG / burst files)
-----------------------------------------------------------------
-A helper script (`generate_synthetic_data.py`) creates:
-- per-subject folders:
-  - `{preprocessed_dir}/{condition}/{decim}/{subject_type}_data/movement/sub_{XX}/beta_bursts_superlets_nfs.npy`
-  - same for `rest/`
-- per-subject epoch pickles:
-  - `epochs_{subject_type}_{XX}_movement_{condition}.pkl` and rest equivalent
-
-Usage:
-- Edit `config.json` or set parameters at top of `generate_synthetic_data.py`.
 - Run:
   python generate_synthetic_data.py
 
@@ -110,10 +100,3 @@ Notes & best practices
 - CSP and StratifiedKFold require sufficient trials per class; add guards for small-sample cases.
 - If you want global normalization for PCA, fit a single scaler across subjects instead of per-subject scaling.
 
-Contact / getting help
-----------------------
-If you want me to:
-- add the README file to the repo,
-- create a small unit test that runs the pipeline on synthetic data,
-- or refactor run_analysis into smaller testable functions,
-tell me which and I’ll prepare a patch or a PR.
