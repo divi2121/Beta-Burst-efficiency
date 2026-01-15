@@ -146,7 +146,7 @@ Raw EEG Data
 
 ---
 
-### 3. Testing & Validation (`tests_test_run_analysis_Version3.py`)
+### 3. Testing & Validation (`tests_run_analysis.py`)
 **43 lines | Unit Testing**
 
 **Key Components:**
