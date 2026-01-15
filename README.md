@@ -305,10 +305,9 @@ Results are saved as `.npz` files containing:
 
 ### Current Limitations
 
-1. **Data Availability**: Original clinical EEG data cannot be shared due to privacy regulations
-2. **Dependency Requirements**: Missing `zapline_iter.py` module for line noise removal
-3. **Hardware Requirements**: Analysis requires substantial memory for multi-subject PCA (recommend 16GB+ RAM)
-4. **Generalization**: Results specific to motor imagery/intention tasks with limited electrode coverage
+1. **Data Availability**: Original clinical EEG data cannot be shared due to privacy regulations   
+2. **Hardware Requirements**: Analysis requires substantial memory for multi-subject PCA (recommend 16GB+ RAM)
+3. **Generalization**: Results specific to motor imagery/intention tasks with limited electrode coverage
 
 ### Planned Improvements
 
