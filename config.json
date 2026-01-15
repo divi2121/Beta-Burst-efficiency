@@ -1,0 +1,67 @@
+{
+  "paths": {
+    "base_directory": "path/to/your/project/data",
+    "raw_data": "path/to/your/project/data/Perrine/Raw/_data/FIF",
+    "preprocessed_data": "path/to/your/project/data/Perrine/Preprocessed",
+    "outputs": "outputs"
+  },
+
+  "dataset": {
+    "condition": "Notch_45",
+    "sampling_frequency": 250,
+    "decimation": 4,
+    "subject_ranges": {
+      "Patient": {
+        "range": [1, 55],
+        "exclude": [9, 10, 16, 17, 18]
+      },
+      "Subject": {
+        "range": [1, 30],
+        "exclude": []
+      }
+    }
+  },
+
+  "preprocessing": {
+    "filters": {
+      "notch_frequency": 50,
+      "bandpass": [1, 45]
+    },
+    "channels": ["F3", "Fz", "F4", "C3", "Cz", "C4", "CP5", "CP6", "Pz"],
+    "epoch_window": {
+      "movement": [-2, 14],
+      "rest": [0, 8]
+    },
+    "apply_autoreject": true
+  },
+
+  "analysis": {
+    "pca": {
+      "components": 10,
+      "bins": 7,
+      "min_axis": 1,
+      "max_axis": 6
+    },
+    "csp": {
+      "components": 4,
+      "cross_validation_splits": 2
+    },
+    "runs": 5,
+    "frequency_bands": {
+      "band_1": [15, 17],
+      "band_2": [17, 19],
+      "band_3": [19, 22],
+      "band_4": [22, 24],
+      "band_5": [24, 26],
+      "band_6": [26, 30]
+    }
+  },
+
+  "burst_detection": {
+    "freq_step": 0.5,
+    "tf_method": "superlets",
+    "produce_plots": false,
+    "plot_format": "png",
+    "remove_fooof": false
+  }
+}

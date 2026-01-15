@@ -1,0 +1,9 @@
+mne
+autoreject
+numpy
+pandas
+matplotlib
+seaborn
+scikit-learn
+scipy
+joblib
