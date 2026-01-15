@@ -203,6 +203,8 @@ Beta-Burst-efficiency/
 ├── help_funcs.py                   # [COLLABORATOR] Utility functions
 ├── lagged_coherence.py             # [COLLABORATOR] Connectivity analysis
 ├── plot_tf_activity.py             # [COLLABORATOR] Visualization utilities
+├── zapline_iter.pty                # [COLLABORATOR] Impelementing zapline artifact rejection
+
 │
 ├── config.json                     # Configuration file (not included)
 └── README.md                       # This file
