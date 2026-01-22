@@ -9,7 +9,7 @@ A novel EEG analysis pipeline comparing **beta-burst** detection versus traditio
 
 ---
 
-## 🎯 Key Findings
+## Key Findings
 
 - **Healthy Subjects**: 78% classification accuracy using beta-burst analysis
 - **Patient Population**: 70% classification accuracy 
@@ -18,7 +18,7 @@ A novel EEG analysis pipeline comparing **beta-burst** detection versus traditio
 
 ---
 
-## 📊 Research Context
+## Research Context
 
 ### Background
 This project implements and validates cutting-edge neuroscience methods for analyzing motor-related brain activity using electroencephalography (EEG). The work focuses on:
@@ -39,7 +39,7 @@ Understanding beta-burst dynamics has implications for:
 
 ---
 
-## 🔬 Technical Approach
+## Technical Approach
 
 ### Pipeline Overview
 
@@ -75,7 +75,7 @@ Raw EEG Data
 
 ---
 
-## 💻 My Contributions
+## My Contributions
 
 ### 1. EEG Preprocessing Pipeline (`preprocess_pipeline.py`)
 **300 lines | Signal Processing & Data Preparation**
@@ -161,7 +161,7 @@ Raw EEG Data
 
 ---
 
-## 🛠️ Technical Stack
+## Technical Stack
 
 ### Core Dependencies
 ```python
@@ -187,7 +187,7 @@ json                # Configuration management
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 Beta-Burst-efficiency/
@@ -212,7 +212,7 @@ Beta-Burst-efficiency/
 
 ---
 
-## 🚀 Usage
+## Usage
 
 ### Configuration
 The pipeline requires a `config.json` file with the following structure:
@@ -282,7 +282,7 @@ Results are saved as `.npz` files containing:
 
 ---
 
-## 📈 Results & Interpretation
+## Results & Interpretation
 
 ### Classification Performance
 
@@ -339,13 +339,13 @@ Results are saved as `.npz` files containing:
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 📧 Contact
+## Contact
 
 For questions about this implementation or potential collaborations:
 - GitHub: [@divi2121](https://github.com/divi2121)
@@ -353,7 +353,7 @@ For questions about this implementation or potential collaborations:
 
 ---
 
-## 🏆 Skills Demonstrated
+## Skills Demonstrated
 
 This project showcases competencies in:
 
