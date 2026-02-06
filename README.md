@@ -1,4 +1,3 @@
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/6cb25ca0-3a0a-4521-9db8-accf7564c9dc" /># Beta-Burst Analysis for Motor Classification
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![MNE](https://img.shields.io/badge/MNE-Python-orange.svg)](https://mne.tools/)
