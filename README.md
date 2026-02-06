@@ -1,4 +1,4 @@
-# Beta-Burst Analysis for Motor Classification
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/6cb25ca0-3a0a-4521-9db8-accf7564c9dc" /># Beta-Burst Analysis for Motor Classification
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![MNE](https://img.shields.io/badge/MNE-Python-orange.svg)](https://mne.tools/)
@@ -303,7 +303,7 @@ Results are saved as `.npz` files containing:
 
 ---
 
-## ⚠️ Limitations & Future Work
+##  Limitations & Future Work
 
 ### Current Limitations
 
@@ -322,21 +322,32 @@ Results are saved as `.npz` files containing:
 
 ---
 
-## 🔗 Related Publications
+##  Related Publications
 
-*[Space for adding relevant publications - to be added by repository owner]*
+This pipeline was inspired by and aligns with the findings of:
+
+- Papadopoulos, S., Darmet, L., Szul, M. J., Congedo, M., Bonaiuto, J. J., & Mattout, J. (2024).  
+  *Surfing beta burst waveforms to improve motor imagery-based BCI.*  
+  Imaging Neuroscience, 2, imag-2-00391.  
+  [https://doi.org/10.1162/imag_a_00391](https://doi.org/10.1162/imag_a_00391)
+
+- Szul, M. J., Papadopoulos, S., Alavizadeh, S., Daligaut, S., Schwartz, D., Mattout, J., & Bonaiuto, J. J. (2023).  
+  *Diverse beta burst waveform motifs characterize movement-related cortical dynamics.*  
+  Progress in Neurobiology, 228, 102490.  
+  [https://doi.org/10.1016/j.pneurobio.2023.102490](https://doi.org/10.1016/j.pneurobio.2023.102490)
+
+- Little, S., Bonaiuto, J., Barnes, G., & Bestmann, S. (2019).  
+  *Human motor cortical beta bursts relate to movement planning and response errors.*  
+  PLOS Biology, 17(10), e3000479.  
+  [https://doi.org/10.1371/journal.pbio.3000479](https://doi.org/10.1371/journal.pbio.3000479)
 
 ---
 
-## 👥 Collaborator Acknowledgments
+##  Collaborator Acknowledgments
+**Burst Detection Algorithms**:Dr.James Bonaiuto CNRS (Team Leader) , Dr Jeremie Mattout Cophy and Inserm (Team Leader) and Sotiris Papadopoulos (PhD Candidate) - 
+Core burst detection methodology - Feature extraction framework - Helper utilities and visualization tools
 
-**Burst Detection Algorithms**: James Bonaiuto (PhD Candidate)
-- Core burst detection methodology
-- Feature extraction framework
-- Helper utilities and visualization tools
-
-**My Role**: Preprocessing pipeline, analysis framework, classification validation, and documentation.
-
+**My Role**: Preprocessing pipeline, analysis framework, classification validation, and documentatio
 ---
 
 ## License
