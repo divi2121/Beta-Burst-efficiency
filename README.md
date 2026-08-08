@@ -20,19 +20,6 @@ healthy controls and disappeared in patients.
 
 ---
 
-## ⚠ Repository status
-
-**This code does not currently run standalone.** Several modules import helper functions that live
-in the upstream [`bebopbci`](https://gitlab.com/sotpapad/bebopbci) repository and are not vendored
-here (`time_res_features`, `plot_burst_features`, `plot_tf_features`, `plot_burst_dict`,
-`preprocess`, `burst_analysis`/`TfBursts`). Restructuring this repository to depend on `bebopbci`
-as a package, rather than partially vendoring it, is planned.
-
-The clinical EEG data cannot be shared (patient privacy), so the results below are not reproducible
-from this repository as-is. Adapting the pipeline to a public motor imagery dataset
-(BCI Competition IV-2a via MOABB) is the intended fix for that, and is not yet done.
-
----
 
 ## Results
 
@@ -62,6 +49,24 @@ Several explanations for the patient null are plausible and this dataset cannot 
 differences in signal quality and artifact burden, the possibility that beta burst dynamics are
 genuinely altered by the underlying pathology, and the small number of epochs per participant.
 The thesis discussion treats these at length.
+
+## My contribution
+
+This repository is a mix of my own code and code from the upstream project (see Provenance). To be
+explicit about the split — the burst detection methodology is not mine, and by volume most of the
+code here is not mine either.
+
+**Mine:**
+
+| File | What it does |
+|---|---|
+| `preprocess_pipeline.py` | EEG preprocessing and epoching: filtering, zapline, event extraction, AutoReject integration, channel selection, batch processing over subjects and conditions |
+| `run_analysis.py` | Multi-subject aggregation and alignment, per-subject scaling, PCA over stacked burst waveforms, discriminative-axis selection, the dual burst-vs-filter classification pipelines, cross-validation, results serialisation |
+| `tests_run_analysis.py` | Unit tests for config validation and index computation |
+
+In substance, my work was building the preprocessing and multi-subject analysis pipeline required
+to move a published method onto a new clinical cohort, and benchmarking it honestly against the
+conventional alternative. I reproduced and validated the burst method.
 
 ---
 
@@ -96,27 +101,65 @@ Note that **ICA was not used**. Artifact handling was zapline + bandpass + AutoR
 were considered and left out: both can suppress the transient high-frequency content that burst
 detection depends on, which is a genuine tradeoff rather than an oversight.
 
----
+## Limitations
 
-## My contribution
+The open question the null leaves is whether beta burst dynamics are genuinely altered by the
+underlying pathology, or simply harder to measure in these recordings. Those two possibilities have
+different consequences for whether the method is worth pursuing clinically, and this dataset cannot
+distinguish them.
 
-This repository is a mix of my own code and code from the upstream project (see Provenance). To be
-explicit about the split — the burst detection methodology is not mine, and by volume most of the
-code here is not mine either.
+- **Small epoch counts.** 48 epochs per condition per participant is few for waveform-level PCA.
+- **Two channels.** C3/C4 assumes a canonical sensorimotor topography. In patients with structural
+  damage or long-term reorganisation that assumption may fail; a data-driven channel selection
+  would be a better approach.
+- **Epoch length is a tradeoff.** 8-second epochs give enough bursts per epoch for stable waveform
+  statistics, at the cost of temporal precision and of any real-time applicability.
+- **PCA is not obviously the right decomposition** for burst waveforms — it was adequate, not optimal.
+- **Not reproducible from this repository** — the clinical data cannot be shared, and the code does
+  not currently run standalone.
 
-**Mine:**
+## Status
 
-| File | What it does |
-|---|---|
-| `preprocess_pipeline.py` | EEG preprocessing and epoching: filtering, zapline, event extraction, AutoReject integration, channel selection, CLI for batch processing over subjects and conditions |
-| `run_analysis.py` | Multi-subject aggregation and alignment, per-subject scaling, PCA over stacked burst waveforms, discriminative-axis selection, the dual burst-vs-filter classification pipelines, cross-validation, results serialisation |
-| `tests_run_analysis.py` | Unit tests for config validation and index computation |
+This code does not currently run standalone. Several modules import helper functions that live in the
+upstream [`bebopbci`](https://gitlab.com/sotpapad/bebopbci) repository and are not vendored here
+(`time_res_features`, `plot_burst_features`, `plot_tf_features`, `plot_burst_dict`, `preprocess`,
+`burst_analysis`/`TfBursts`).
 
-In substance, my work was building the preprocessing and multi-subject analysis pipeline required
-to move a published method onto a new clinical cohort, and benchmarking it honestly against the
-conventional alternative. I reproduced and validated the burst method; I did not develop it.
+The scripts here are extracts from the thesis analysis, which was developed and run in notebooks.
+They document the pipeline but do not execute it end to end, and the original notebooks are no longer
+available.
 
----
+The clinical EEG data cannot be shared, so the results above are not reproducible from this
+repository as-is.
+
+Three things would change that, in order of usefulness: rebuilding the analysis from the recovered
+raw data as a seeded, end-to-end reproducible pipeline; restructuring this repository to depend on
+`bebopbci` as a package rather than partially vendoring it; and reproducing the pipeline on a public
+motor imagery dataset (BCI Competition IV-2a via MOABB) with regenerable figures.
+
+## Usage
+
+Subject to the status caveat above — the imports do not resolve without `bebopbci`, so these are
+documentation of the scripts' interface rather than a working recipe.
+
+Both scripts take positional arguments and contain hardcoded dataset paths from the machine they were
+run on; they do not read `config.json`, which is included here for reference only.
+
+```bash
+python preprocess_pipeline.py <subject>
+python run_analysis.py
+```
+
+```python
+from run_analysis import run_analysis
+
+scores, subjects, stds, aucs, auc_stds = run_analysis(
+    subject_type="Patient",
+    analysis_type="beta_analysis",
+)
+```
+
+Results are written to `.npz`.
 
 ## Provenance and attribution
 
@@ -139,8 +182,6 @@ The work was carried out at CRNL / INSERM Lyon under the supervision of Jérémi
 James Bonaiuto (CNRS), with Sotiris Papadopoulos, and locally supervised by Hasan Mohammad
 (IISER Mohali).
 
----
-
 ## Repository structure
 
 ```
@@ -160,64 +201,10 @@ Beta-Burst-efficiency/
 ├── plot_tf_activity.py          # [UPSTREAM] visualisation
 ├── zapline_iter.py              # [UPSTREAM] iterative zapline
 │
-├── config.json                  # analysis configuration
+├── config.json                  # reference configuration (not read by the scripts)
 ├── requirements.txt
 └── LICENSE                      # GPL-3.0
 ```
-
----
-
-## Usage
-
-Subject to the status caveat above — the imports do not currently resolve without `bebopbci`.
-
-**Preprocessing:**
-```bash
-python preprocess_pipeline.py --subject 1 --condition ZAP_45_BP --data-type Patient
-```
-
-**Analysis:**
-```bash
-python run_analysis.py
-```
-
-Or programmatically:
-```python
-from run_analysis import run_analysis
-
-scores, subjects, stds, aucs, auc_stds = run_analysis(
-    subject_type="Patient",
-    analysis_type="beta_analysis",
-    config_path="config.json",
-    random_seed=42,
-)
-```
-
-Configuration lives in `config.json` (included). Results are written as `.npz` containing
-`subject_scores`, `subject_aucs`, `std_scores`, `sizes_per_subject`, and `top_axes`.
-
----
-
-## Limitations
-
-- **Not reproducible from this repository** — clinical data cannot be shared, and the code does not
-  currently run standalone.
-- **Small epoch counts.** 48 epochs per condition per participant is few for waveform-level PCA.
-- **Two channels.** C3/C4 assumes a canonical sensorimotor topography. In patients with structural
-  damage or long-term reorganisation that assumption may fail; a data-driven channel selection
-  would be a better approach.
-- **Epoch length is a tradeoff.** 8-second epochs give enough bursts per epoch for stable waveform
-  statistics, at the cost of temporal precision and of any real-time applicability.
-- **PCA is not obviously the right decomposition** for burst waveforms — it was adequate, not optimal.
-
-### Planned
-
-- [ ] Restructure to depend on `bebopbci` rather than vendoring it
-- [ ] Reproduce the pipeline on BCI Competition IV-2a via MOABB, with regenerable figures
-- [ ] Pin `requirements.txt` (currently unpinned, and missing `meegkit` and `pytest`)
-- [ ] Add burst waveform / PCA component / confusion matrix plots
-
----
 
 ## References
 
@@ -237,8 +224,6 @@ Configuration lives in `config.json` (included). Results are written as `.npz` c
 - Little, S., Bonaiuto, J., Barnes, G., & Bestmann, S. (2019). *Human motor cortical beta bursts
   relate to movement planning and response errors.* PLOS Biology, 17(10), e3000479.
   https://doi.org/10.1371/journal.pbio.3000479
-
----
 
 ## License
 
